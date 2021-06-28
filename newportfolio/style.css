@@ -1,5 +1,26 @@
+
+main {
+  z-index: 99;
+  position: absolute;
+  width: 100%;
+  margin: 0px auto;
+  padding: 120px 0px;
+  
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);  
+}
+
+h1,h2,h3 {
+  color:cyan;
+  font-weight: 700;
+}
+
 canvas {
   position: fixed;
   top: 0;
   left: 0;
+}
+
+p {
+  color:aliceblue;
 }

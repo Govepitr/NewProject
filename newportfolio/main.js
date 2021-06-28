@@ -36,9 +36,9 @@ scene.add(pointLight, ambientLight)
 
 //Helpers
 
-const lightHelper = new THREE.PointLightHelper(pointLight)
-const gridHelper = new THREE.GridHelper( 200, 50);
-scene.add(lightHelper, gridHelper)
+// const lightHelper = new THREE.PointLightHelper(pointLight)
+// const gridHelper = new THREE.GridHelper( 200, 50);
+// scene.add(lightHelper)
 
 const controls = new OrbitControls( camera, renderer.domElement);
 
@@ -61,13 +61,55 @@ Array(200).fill().forEach(addStar)
 const spaceTexture = new THREE.TextureLoader().load('space.jpg');
 scene.background = spaceTexture;
 
-// My Avatar
+// Earth
 
-const meTexture = new THREE.TextureLoader().load('mesmol.jpg');
+const earthTexture = new THREE.TextureLoader().load('earth.jpg');
+const normTexture = new THREE.TextureLoader().load('earthNormal.jpg');
 
-const me = new THREE.Mesh(new THREE.BoxGeometry(3, 3, 3), new THREE.MeshBasicMaterial({map: meTexture}));
+const earth = new THREE.Mesh(
+  new THREE.SphereGeometry(5, 32, 32),
+  new THREE.MeshStandardMaterial( {
+    map: earthTexture, 
+    normalTexture: normTexture
+  } )
+);
 
-scene.add(me);
+scene.add(earth);
+
+// Moon
+
+const moonTexture = new THREE.TextureLoader().load('moon.jpg');
+const normalTexture = new THREE.TextureLoader().load('normal.jpg');
+
+const moon = new THREE.Mesh(
+  new THREE.SphereGeometry(3, 32, 32),
+  new THREE.MeshStandardMaterial( {
+    map: moonTexture,
+    normalMap: normalTexture
+  } )
+);
+scene.add(moon);
+
+moon.position.z = 30;
+moon.position.setX(-10);
+
+function moveCamera() {
+  
+  const t = document.body.getBoundingClientRect().top;
+  moon.rotation.x += 0.05;
+  moon.rotation.y += 0.075;
+  moon.rotation.z += 0.05;
+
+  earth.rotation.y += 0.01;
+  earth.rotation.z += 0.01;
+
+  camera.position.z = t * -0.01;
+  camera.position.x = t * -0.0002;
+  camera.position.y = t * -0.0002;
+
+}
+
+document.body.onscroll = moveCamera
 
 function animate() {
   requestAnimationFrame( animate );
